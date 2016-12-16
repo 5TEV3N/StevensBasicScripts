@@ -5,7 +5,6 @@ public class InputManager : MonoBehaviour
 {
     // THIS SCRIPT IS FOR THE PLAYER CHARACTER'S MOVEMENT. PLEASE ATTACH THIS SCRIPT AND THE DESIGNATED PLAYERCONTROLLER ONTO THE PLAYER
     // DELETE ANYTHING THAT YOU AREN'T USING
-
     PlayerController2D playerController2D;       // refference to the playerController2D script
     PlayerController3D playerController3D;       // refference to the playerController3D script
 
