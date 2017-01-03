@@ -12,24 +12,40 @@ public class PlayerController2D : MonoBehaviour
 
     private Rigidbody2D rb;             // access the rigidbody2D
 
-    void PlayerMove(float xAxis)
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void FixedUpdate()
+    {
+        valOfVelocity = rb.velocity.magnitude;
+    }
+
+    public void PlayerMove(float xAxis)
     {
         if (xAxis != 0)
         {
             if (xAxis > 0)
             {
+                rb.velocity = transform.right * playerSpeed;
+                /*
                 if (valOfVelocity <= maxVelocity)
                 {
                     rb.AddForce(transform.right * playerSpeed, ForceMode2D.Impulse);
                 }
+                */
             }
 
             if (xAxis < 0)
             {
+                rb.velocity = -transform.right * playerSpeed;
+                /*
                 if (valOfVelocity <= maxVelocity)
                 {
                     rb.AddForce(-transform.right * playerSpeed, ForceMode2D.Impulse);
                 }
+                */
             }
         }
     }

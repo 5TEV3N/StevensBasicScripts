@@ -6,6 +6,8 @@ public class Test : MonoBehaviour
 {
     BasicJuice juice = new BasicJuice();
     BasicTimer timer = new BasicTimer();
+    BasicPlayer player1 = new BasicPlayer();
+    
     public Transform newPosition;
     public float testTimer = 5;
 

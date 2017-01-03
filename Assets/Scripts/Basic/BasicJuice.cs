@@ -29,7 +29,7 @@ public class BasicJuice
                 object2Lerp.transform.position = Vector2.Lerp(object2Lerp.transform.position, newPos.transform.position, Time.deltaTime);
                 break;
             default:
-                Debug.Log("Error");
+                Debug.Log("Error when lerping");
                 break;
         }
     }

@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager3D : MonoBehaviour
 {
-    // THIS SCRIPT IS FOR THE PLAYER CHARACTER'S MOVEMENT. PLEASE ATTACH THIS SCRIPT AND THE DESIGNATED PLAYERCONTROLLER ONTO THE PLAYER
-    // DELETE ANYTHING THAT YOU AREN'T USING
-    PlayerController2D playerController2D;       // refference to the playerController2D script
     PlayerController3D playerController3D;       // refference to the playerController3D script
 
     public Sprite playerSprite;                  // sprite of the player character
@@ -18,34 +16,11 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
-        playerController2D = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController2D>();
         playerController3D = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController3D>();
     }
-	
-	void FixedUpdate ()
-    {
-        /* SECTION 1. 2DplayerController.
 
-        xAxis = Input.GetAxisRaw("Horizontal");
-        if (xAxis != 0)
-        {
-            playerController2D.PlayerMove(xAxis);
-
-            if (xAxis < 0)
-            {
-                playerSprite.flipX = true;
-            }
-
-            if (xAxis > 0)
-            {
-                playerSprite.flipX = false;
-            }
-        }
-        
-        */
-
-        /* SECTION 2. 3DplayerController.
-        
+    void FixedUpdate()
+    { 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -57,12 +32,12 @@ public class InputManager : MonoBehaviour
 
         if (mouseXAxis != 0 || mouseYAxis != 0)
         {
-            playerController3D.Mouselook(mouseXAxis, mouseYAxis);
+            //playerController3D.Mouselook(mouseXAxis, mouseYAxis);
         }
 
         if (xAxis != 0 || zAxis != 0)
         {
-            playerController3D.PlayerMove(xAxis, zAxis);
+            //playerController3D.PlayerMove(xAxis, zAxis);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -77,6 +52,5 @@ public class InputManager : MonoBehaviour
             }
         }
         
-        */
     }
 }
