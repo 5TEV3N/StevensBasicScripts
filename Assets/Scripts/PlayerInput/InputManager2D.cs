@@ -36,4 +36,12 @@ public class InputManager2D : MonoBehaviour
             }
         }
     }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }
+    }
 }

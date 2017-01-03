@@ -17,9 +17,15 @@ public class PlayerController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    void Update()
+    {
+        VelocityCheck();
+    }
+
+    public void VelocityCheck()
     {
         valOfVelocity = rb.velocity.magnitude;
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
     public void PlayerMove(float xAxis)
@@ -28,26 +34,17 @@ public class PlayerController2D : MonoBehaviour
         {
             if (xAxis > 0)
             {
-                rb.velocity = transform.right * playerSpeed;
-                /*
-                if (valOfVelocity <= maxVelocity)
-                {
-                    rb.AddForce(transform.right * playerSpeed, ForceMode2D.Impulse);
-                }
-                */
+                rb.AddForce(transform.right * playerSpeed, ForceMode2D.Impulse);    
             }
 
             if (xAxis < 0)
-            {
-                rb.velocity = -transform.right * playerSpeed;
-                /*
-                if (valOfVelocity <= maxVelocity)
-                {
-                    rb.AddForce(-transform.right * playerSpeed, ForceMode2D.Impulse);
-                }
-                */
+            {          
+                rb.AddForce(-transform.right * playerSpeed, ForceMode2D.Impulse);
             }
         }
     }
+    public void PlayerJump()
+    {
 
+    }
 }
