@@ -165,7 +165,7 @@ public class PlatformerController : MonoBehaviour {
 
 	}
 
-	bool isOnGround () {
+	public bool isOnGround () {
 		return Physics.Raycast (transform.position, -transform.up, transform.localScale.y * 0.6f);
 	}
 
