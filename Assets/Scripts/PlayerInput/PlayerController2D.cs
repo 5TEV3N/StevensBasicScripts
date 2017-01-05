@@ -4,26 +4,28 @@ using System.Collections;
 
 public class PlayerController2D : MonoBehaviour
 {
-    // Self Note Bugs: Player can't move mid air. Player can't double jump (or no option)
+    // Self Note Bugs: Player can't move mid air. Player can't double jump (or no option) STILL A BIG WORK IN PROGRESS
+
 
     // Please fiddle around with the Rigidbody values that works for you!!!
-    private Rigidbody2D rb;             // access the rigidbody2D
-    public Sprite playerSprite;         // sprite of the player character
+    private Rigidbody2D rb;                      // access the rigidbody2D
+    public Sprite playerSprite;                  // sprite of the player character
 
     [Header ("Player Movement")]
-    public float playerSpeed;           // speed of the player
-    public float valOfVelocity;         // checks how fast the player goes
-    public float maxVelocity;           // the max speed of how fast the player goes   
+    public float playerSpeed;                    // speed of the player
+    public float valOfVelocity;                  // checks how fast the player goes
+    public float maxVelocity;                    // the max speed of how fast the player goes   
 
-    private float xAxis = 0;            // 1 = right, -1 = left
-    private float zAxis = 0;            // 1 = front, -1 back
+    private float xAxis = 0;                     // 1 = right, -1 = left
+    private float zAxis = 0;                     // 1 = front, -1 back
 
     [Header ("Jumping")]
-    public float playerJumpHeight;      // jump Height 
-    public int jumpsAllowed;            // how many jumps you can perform
-    public int jumpCounter;             // keeps track of how many legal jumps you performed
-    public float jumpRayDistance;       // how long the ray is 
-    public LayerMask groundLayerMask;   // checks if it's hitting layer mask = ground
+    public float playerJumpHeight;               // jump Height 
+    public float maxTerminalVelocity;            // max speed of how fast the player falls
+    public int jumpsAllowed;                     // how many jumps you can perform
+    public int jumpCounter;                      // keeps track of how many legal jumps you performed
+    public float jumpRayDistance;                // how long the ray is 
+    public LayerMask groundLayerMask;            // checks if it's hitting layer mask = ground
 
     void Awake()
     {
@@ -42,6 +44,12 @@ public class PlayerController2D : MonoBehaviour
     void Update()
     {
         valOfVelocity = rb.velocity.magnitude;
+
+        if (Mathf.Abs(rb.velocity.y) <= maxTerminalVelocity)
+        {
+            rb.AddForce(-transform.up, ForceMode2D.Impulse);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerJump();
@@ -54,7 +62,7 @@ public class PlayerController2D : MonoBehaviour
         {
             //playerSprite.flipX = true;
             //rb.velocity = -transform.right * playerSpeed;
-            if (Mathf.Abs(rb.velocity.x) < maxVelocity)
+            if (Mathf.Abs(rb.velocity.x) <= maxVelocity)
                 rb.AddForce(-transform.right * playerSpeed, ForceMode2D.Impulse);
         }
 
@@ -62,7 +70,7 @@ public class PlayerController2D : MonoBehaviour
         {
             //playerSprite.flipX = false;
             //rb.velocity = transform.right * playerSpeed;
-            if (Mathf.Abs(rb.velocity.x) < maxVelocity)
+            if (Mathf.Abs(rb.velocity.x) <= maxVelocity)
                 rb.AddForce(transform.right * playerSpeed, ForceMode2D.Impulse);
         }
     }
