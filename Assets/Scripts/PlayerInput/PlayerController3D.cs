@@ -85,7 +85,7 @@ public class PlayerController3D : MonoBehaviour
         //Filter Vertical input
         if (mouseYAxis != 0)
         {
-            verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;               //This section pretty much clamps your camera rotation
+            verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;               //This section pretty much clamps your camera rotation idk why this works
             verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
             cam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
         }

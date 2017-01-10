@@ -11,16 +11,20 @@ public class PlayerControllerThirdPerson : MonoBehaviour
     public float mouseSensitivity = 1;                               // Mouse sensitivity
     public float jumpHeightIntensifier = 1;                          // How far i can jump
     public float playerSpeedIntensifier = 1;                         // We can controll the speed of the player here.
+    public float upDownRange = 90.0f;                                // How far i can look up or down.
 
     public float valOfVelocity;                                      // Checks how fast the player goes
     public float maxVelocity;                                        // The max speed of how fast the player goes
+    public float cameraDistance = 10.0f;                             // Distance between the camera and the player
 
     [Header("Containers")]
     public Rigidbody rb;                                             // Access the rigidbody to move
     public Camera cam;                                               // Acess the Camera of the gameobject
     public Transform camLookAt;
+    public Transform camTransform;
 
-    private Vector3 offset;
+    private float currentX;
+    private float currentY;
 
     void Awake()
     {
@@ -41,7 +45,7 @@ public class PlayerControllerThirdPerson : MonoBehaviour
             {
                 if (Mathf.Abs(valOfVelocity) <= maxVelocity)
                 {
-                    rb.AddForce(transform.right * playerSpeedIntensifier);
+                    rb.AddForce(transform.right + cam.transform.forward * playerSpeedIntensifier);
                 }
             }
 
@@ -49,7 +53,7 @@ public class PlayerControllerThirdPerson : MonoBehaviour
             {
                 if (Mathf.Abs(valOfVelocity) <= maxVelocity)
                 {
-                    rb.AddForce(-transform.right * playerSpeedIntensifier);
+                    rb.AddForce(-transform.right + cam.transform.forward * playerSpeedIntensifier);
                 }
             }
         }
@@ -60,7 +64,7 @@ public class PlayerControllerThirdPerson : MonoBehaviour
             {
                 if (Mathf.Abs(valOfVelocity) <= maxVelocity)
                 {
-                    rb.AddForce(transform.forward * playerSpeedIntensifier);
+                    rb.AddForce(transform.forward + cam.transform.forward * playerSpeedIntensifier);
                 }
             }
 
@@ -68,7 +72,7 @@ public class PlayerControllerThirdPerson : MonoBehaviour
             {
                 if (Mathf.Abs(valOfVelocity) <= maxVelocity)
                 {
-                    rb.AddForce(-transform.forward * playerSpeedIntensifier);
+                    rb.AddForce(-transform.forward + cam.transform.forward * playerSpeedIntensifier);
                 }
             }
         }
@@ -76,18 +80,13 @@ public class PlayerControllerThirdPerson : MonoBehaviour
 
     public void Mouselook(float mouseXAxis, float mouseYAxis)
     {
-        //Filter Horizontal input
-        if (mouseXAxis != 0)
-        {
-            //offset = Quaternion.AngleAxis(mouseXAxis, Vector3.up);
-            cam.transform.position = camLookAt.position + offset;
-            cam.transform.LookAt(gameObject.transform.position);
-        }
-
-        //Filter Vertical input
-        if (mouseYAxis != 0)
-        {
-
-        }
+        currentX += mouseXAxis;
+        currentY += mouseYAxis;
+        currentY = Mathf.Clamp(currentY, -upDownRange, upDownRange);
+        //https://www.youtube.com/watch?v=Ta7v27yySKs
+        Vector3 dir = new Vector3(0, 0, -cameraDistance);
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+        camTransform.position = camLookAt.position + rotation * dir;
+        camTransform.LookAt(camLookAt.position);
     }
 }

@@ -39,5 +39,16 @@ public class InputManagerThirdPerson : MonoBehaviour
             playerControllerThirdPerson.PlayerMove(xAxis, zAxis);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            cameraLock = true;
+
+            if (cameraLock == true)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                cameraLock = false;
+            }
+        }
     }
 }
