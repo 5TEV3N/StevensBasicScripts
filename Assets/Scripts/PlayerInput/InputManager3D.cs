@@ -32,12 +32,12 @@ public class InputManager3D : MonoBehaviour
 
         if (mouseXAxis != 0 || mouseYAxis != 0)
         {
-            //playerController3D.Mouselook(mouseXAxis, mouseYAxis);
+            playerController3D.Mouselook(mouseXAxis, mouseYAxis);
         }
 
         if (xAxis != 0 || zAxis != 0)
         {
-            //playerController3D.PlayerMove(xAxis, zAxis);
+            playerController3D.PlayerMove(xAxis, zAxis);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -51,6 +51,5 @@ public class InputManager3D : MonoBehaviour
                 cameraLock = false;
             }
         }
-        
     }
 }

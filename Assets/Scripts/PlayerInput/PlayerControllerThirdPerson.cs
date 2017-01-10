@@ -1,16 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-[RequireComponent(typeof(Rigidbody))]
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerController3D : MonoBehaviour
+public class PlayerControllerThirdPerson : MonoBehaviour
 {
-    InputManager3D inputManager;
+
+    InputManagerThirdPerson inputManagerThirdPerson;
 
     [Header("Values")]
     public float mouseSensitivity = 1;                               // Mouse sensitivity
     public float jumpHeightIntensifier = 1;                          // How far i can jump
     public float playerSpeedIntensifier = 1;                         // We can controll the speed of the player here.
-    public float upDownRange = 90.0f;                                // How far i can look up or down.
 
     public float valOfVelocity;                                      // Checks how fast the player goes
     public float maxVelocity;                                        // The max speed of how fast the player goes
@@ -18,15 +18,15 @@ public class PlayerController3D : MonoBehaviour
     [Header("Containers")]
     public Rigidbody rb;                                             // Access the rigidbody to move
     public Camera cam;                                               // Acess the Camera of the gameobject
+    public Transform camLookAt;
 
-    private float verticalRotation = 0;                              // Contains the MouseYAxis
-    private float originalMaxVelocity;                               // Contains the orginal MaxVelocity  
+    private Vector3 offset;
 
     void Awake()
     {
-        inputManager = GameObject.FindGameObjectWithTag("Player").GetComponent<InputManager3D>();
+        inputManagerThirdPerson = GameObject.FindGameObjectWithTag("Player").GetComponent<InputManagerThirdPerson>();
     }
-    
+
     void Update()
     {
         valOfVelocity = rb.velocity.magnitude;
@@ -49,7 +49,7 @@ public class PlayerController3D : MonoBehaviour
             {
                 if (Mathf.Abs(valOfVelocity) <= maxVelocity)
                 {
-                    rb.AddForce(-transform.right * playerSpeedIntensifier)  ;
+                    rb.AddForce(-transform.right * playerSpeedIntensifier);
                 }
             }
         }
@@ -79,15 +79,15 @@ public class PlayerController3D : MonoBehaviour
         //Filter Horizontal input
         if (mouseXAxis != 0)
         {
-            gameObject.transform.Rotate(new Vector3(0, mouseXAxis, 0));
+            //offset = Quaternion.AngleAxis(mouseXAxis, Vector3.up);
+            cam.transform.position = camLookAt.position + offset;
+            cam.transform.LookAt(gameObject.transform.position);
         }
 
         //Filter Vertical input
         if (mouseYAxis != 0)
         {
-            verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;               //This section pretty much clamps your camera rotation
-            verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
-            cam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+
         }
     }
 }
