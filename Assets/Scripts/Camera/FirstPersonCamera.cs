@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    private Camera cam;                                              // Reff to the camera
     public GameObject player;                                        // Tag your player before using this script!!!!
-
     public float mouseSensitivity;
     public float upDownRange = 90.0f;                                // How far i can look up or down.
     private float verticalRotation = 0;                              // Contains the MouseYAxis
     private float mouseXAxis;
     private float mouseYAxis;
+    private Camera cam;                                              
 
     private void Awake()
     {
@@ -36,14 +35,12 @@ public class FirstPersonCamera : MonoBehaviour
 
     public void Mouselook(float mouseXAxis, float mouseYAxis)
     {
-        //Filter Horizontal input
         if (mouseXAxis != 0)
         {
             player.transform.Rotate(new Vector3(0, mouseXAxis, 0));
 
         }
 
-        //Filter Vertical input
         if (mouseYAxis != 0)
         {
             verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;

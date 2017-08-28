@@ -14,12 +14,17 @@ public class PlayerMovement : MonoBehaviour
     public float currentVelocity;
     public float maxVelocity;
 
-    [Header ("")]
-    public float playerJumpHeight;               // jump Height 
-    public float maxTerminalVelocity;            // max speed of how fast the player falls
-    public int jumpsAllowed;                     // how many jumps you can perform
-    public int jumpCounter;                      // keeps track of how many legal jumps you performed
-    public float jumpRayDistance;                // how long the ray is 
+    [Header("")]
+    public bool jumpingAllowed;
+    public KeyCode jumpKey;
+    public LayerMask groundLayerMask;
+
+    [Header("")]
+    public float playerJumpHeight;               
+    public float jumpRayDistance = 1f;           // how long the ray is 
+    //public float maxTerminalVelocity;            // max speed of how fast the player falls
+    //public int jumpsAllowed = 1;                 // how many jumps you can perform
+    //public int jumpCounter;                      // keeps track of how many legal jumps you performed
 
     private Rigidbody rb;
     private float xAxis = 0f;
@@ -30,15 +35,22 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        currentVelocity = rb.velocity.magnitude;
-    }
-
     private void FixedUpdate()
     {
+        currentVelocity = rb.velocity.magnitude;
+        Debug.DrawRay(transform.position, Vector3.down * jumpRayDistance, Color.magenta);
+
         xAxis = Input.GetAxisRaw("Horizontal");
         zAxis = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetKeyDown(jumpKey))
+        {
+            if (jumpingAllowed == true)
+            {
+                PlayerJump();
+            }
+            else { Debug.Log("Debug : Jumping is disabled, please enable it on the inspector."); }
+        }
 
         if (firstPersonController == false)
         {
@@ -78,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (xAxis < 0)
             {
-                //playerSprite.flipX = true;
                 if (Mathf.Abs(currentVelocity) <= maxVelocity)
                 {
                     rb.AddForce(-transform.right * playerSpeed, ForceMode.Impulse);
@@ -86,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
             }
             if (xAxis > 0)
             {
-                //playerSprite.flipX = false;
                 if (Mathf.Abs(currentVelocity) <= maxVelocity)
                 {
                     rb.AddForce(transform.right * playerSpeed, ForceMode.Impulse);
@@ -109,4 +119,19 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public void PlayerJump()
+    {
+        if (isOnGround() == true)
+        {
+            rb.AddForce(transform.up * playerJumpHeight, ForceMode.Impulse);
+        }
+    }
+
+    public bool isOnGround()
+   {
+       return Physics.Raycast(transform.position, Vector3.down, jumpRayDistance, groundLayerMask);
+   }
+
+
 }
